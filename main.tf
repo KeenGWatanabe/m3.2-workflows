@@ -5,7 +5,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "ce9g4.tfstate-backend.com" #s3 bucket name from tf-backend 
-    key    = "terraform-state-locks"  #s3 dynamodb table name from tf-backend
+    key    = "terraform-state-locks"     #s3 dynamodb table name from tf-backend
     region = "us-east-1"
   }
 }
@@ -13,8 +13,8 @@ terraform {
 data "aws_caller_identity" "current" {}
 
 locals {
-  name_prefix = "${split("/", "${data.aws_caller_identity.current.arn}")[1]}"
-  account_id  = "${data.aws_caller_identity.current.account_id}"
+  name_prefix = split("/", "${data.aws_caller_identity.current.arn}")[1]
+  account_id  = data.aws_caller_identity.current.account_id
 }
 
 resource "aws_s3_bucket" "s3_tf" {
